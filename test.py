@@ -53,6 +53,7 @@ def download(url, pathname, it):
     # get the file name
     #filename = os.path.join(pathname, url.split("/")[-1])
     filename = os.path.join(pathname, str(it))
+    filename += ".jpg"
     # progress bar, changing the unit to bytes instead of iteration (default by tqdm)
     progress = tqdm(response.iter_content(1024), f"Downloading {filename}", total=file_size, unit="B", unit_scale=True, unit_divisor=1024)
     with open(filename, "wb") as f:
