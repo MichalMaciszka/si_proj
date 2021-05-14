@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 import cv2
 import math
 
@@ -16,21 +16,20 @@ class Offer:
 
     def compare_hist(self, other_hist):
         val = cv2.compareHist(self.hist, other_hist, cv2.HISTCMP_CORREL)
-        return (1.0 - val) * 100
+        return (1.0 - val) * 100.0
 
     def compare_vectors(self, other_vector):
         sum_of_products = 0
         for i in range(len(self.vector)):
             sum_of_products += self.vector[i] * other_vector[i]
         first_sqrt = 0
+        second_sqrt = 0
         for i in range(len(self.vector)):
             first_sqrt += self.vector[i] ** 2
-        first_sqrt = math.sqrt(first_sqrt)
-        second_sqrt = 0
-        for i in range(len(other_vector)):
-            second_sqrt += other_vector[i]
+            second_sqrt += other_vector[i] ** 2
+        first_sqrt = math.sqrt(first_sqrt)            
         second_sqrt = math.sqrt(second_sqrt)
-        return 100.0 - (100 * sum_of_products / (first_sqrt * second_sqrt))
+        return 100.0 * (1.0 - (sum_of_products / (first_sqrt * second_sqrt)))
 
     def compare_offer(self, other_offer):
         x = self.compare_hist(other_offer.hist)
