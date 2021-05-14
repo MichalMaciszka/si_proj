@@ -3,7 +3,7 @@ import os
 from tqdm import tqdm
 from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin, urlparse
-import time
+import string
 
 def is_valid(url):
     parsed = urlparse(url)
@@ -58,13 +58,44 @@ def download(url, pathname, it):
     progress = tqdm(response.iter_content(1024), f"Downloading {filename}", total=file_size, unit="B", unit_scale=True, unit_divisor=1024)
     with open(filename, "wb") as f:
         for data in progress:
-            #time.sleep(2)
             # write data read to the file
             f.write(data)
             # update the progress bar manually
             progress.update(len(data))
 
-def main():
+def get_text(url):
+    list = []
+    page = 1
+    while len(list) < 100:
+        print("Page = " + str(page), " Len = ", len(list))
+        tmp = url + "?page=" + str(page)
+        html = requests.get(tmp).content
+        soup = bs(html, "html.parser")
+        s = soup.find("table", {"summary": "Ogłoszenia"})
+        for a in s.find_all("a"):
+            item = a.find("strong")
+            if item is not None:
+                list.append(item.next)
+        page += 1
+    return list
+
+def create_words_vector(all_texts):
+    tmp = []
+    words = []
+    bad_chars = [',', '.']
+    for item in all_texts:
+        split = item.split()
+        for i in split:
+            a = i.lower()
+            a = a.translate(str.maketrans('', '', string.punctuation))
+            tmp.append(a)
+    for x in tmp:
+        if x not in words:
+            words.append(x)
+    return words
+
+
+def download_and_get_text():
     url = "https://www.olx.pl/elektronika/q-pendrive/"
     path = "imgs"
     images= get_list_of_images(url)
@@ -72,5 +103,8 @@ def main():
     for img in images:
         download(img, path, no)
         no += 1
+    return get_text(url)
 
-main()
+# download_and_get_text()
+ex = ["He is nice", "He, is. playing football"]
+print(create_words_vector(ex))

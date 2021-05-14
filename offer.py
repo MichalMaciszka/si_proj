@@ -44,5 +44,5 @@ class Offer:
         split = self.text.split()
         for i in range(len(all_words)):
             for j in range(len(split)):
-                if all_words[i] == split[j]:
+                if all_words[i] == split[j].lower():
                     self.vector[i] += 1
