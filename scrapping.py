@@ -63,7 +63,7 @@ def download(url, pathname, it):
             # update the progress bar manually
             progress.update(len(data))
 
-def get_text(url):
+def get_text(url="https://www.olx.pl/elektronika/q-pendrive/"):
     list = []
     page = 1
     while len(list) < 100:
@@ -106,5 +106,5 @@ def download_and_get_text():
     return get_text(url)
 
 # download_and_get_text()
-ex = ["He is nice", "He, is. playing football"]
-print(create_words_vector(ex))
+# ex = ["He is nice", "He, is. playing football"]
+# print(create_words_vector(ex))
