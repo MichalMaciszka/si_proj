@@ -5,7 +5,7 @@ class Claster:
     def __str__(self):
         res = "Claster: \n"
         for x in self.list:
-            res += x.__str__() + '\n'
+            res += str(x) + '\n'
         return res
     
     def compare(self, other_claster):
@@ -13,7 +13,8 @@ class Claster:
         for i in self.list:
             for j in other_claster.list:
                 x, y = i.compare_offer(j)
-                val = x*y #? - ew x+y*2
+                # val = x*y #? - ew x+y/2
+                val = (x+y)/2
                 values.append(val)
         avg = 0
         for x in values:

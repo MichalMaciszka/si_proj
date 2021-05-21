@@ -82,7 +82,6 @@ def get_text(url="https://www.olx.pl/elektronika/q-pendrive/"):
 def create_words_vector(all_texts):
     tmp = []
     words = []
-    bad_chars = [',', '.']
     for item in all_texts:
         split = item.split()
         for i in split:
