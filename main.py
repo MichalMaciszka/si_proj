@@ -3,6 +3,7 @@ import claster
 import algorithm
 import scrapping
 import allegro_api
+import mainWindow
 
 def main():
     offers = []
@@ -25,4 +26,5 @@ def main():
         print(a)
 
 if __name__ == "__main__":
-    main()
+    #main()
+    w = mainWindow.init()

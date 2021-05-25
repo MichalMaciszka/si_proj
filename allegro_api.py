@@ -1,10 +1,9 @@
 import requests
-from requests.api import head
 import requests.utils
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import webbrowser
 import os
-import tqdm
+from PyQt5 import QtCore
 
 CLIENT_ID = "a90652706b9a40eab09ba6d932775125"
 CLIENT_SECRET = "8hn8faw2p2gomG8RTzK0iGx2eK8KZTQx7fTczRLr9GWdYq84PJG3rJfuA3DIgcG4"
@@ -66,7 +65,7 @@ def refresh_token(client_id, client_secret, refresh_token, redirect_uri = REDIRE
 
     return response.json()
 
-def get_offers(access_token, phrase):
+def get_offers(access_token, phrase, num):
     headers = {}
     headers['charset'] = 'utf-8'
     headers['Accept-Language'] = 'pl-PL'
@@ -86,7 +85,7 @@ def get_offers(access_token, phrase):
             if x['images']:
                 names_array.append(x['name'])
                 images_urls_array.append(x['images'][0]['url'])
-        while len(names_array) < 100:
+        while len(names_array) < num:
             response = session.get(API_URL + "/sale/products?phrase=" + phrase + "&page.id=" + next_page['id'])
             response = response.json()
             next_page = response['nextPage']
@@ -95,6 +94,8 @@ def get_offers(access_token, phrase):
                 if x['images']:
                     names_array.append(x['name'])
                     images_urls_array.append(x['images'][0]['url'])
+                    if len(names_array) >= num:
+                        break
     return names_array, images_urls_array
 
 
@@ -117,18 +118,20 @@ def write_access_token():
     file.close()
 
 
-def download_and_get_texts():
-    # write_access_token()
+def download_and_get_texts(progressBar, num):
+    write_access_token()
+    notify = QtCore.pyqtSignal()
     file = open("keys.txt", "r")
     access_token = file.readline()
-    # refresh_token = file.readline()
+    refresh_token = file.readline()
     file.close()
-    names, images = get_offers(access_token, "pendrive")
+    names, images = get_offers(access_token, "pendrive", num)
     path = "imgs"
     no = 1
     for img in images:
         download(img, path, no)
         no += 1
+        progressBar.setProperty("value", (no/num)*20)
     return names
 
 if __name__ == "__main__":
