@@ -8,13 +8,13 @@ class Claster:
             res += str(x) + '\n'
         return res
     
-    def compare(self, other_claster):
+    def compare(self, other_claster, hist, text):
         values = []
         for i in self.list:
             for j in other_claster.list:
                 x, y = i.compare_offer(j)
                 # val = x*y #? - ew x+y/2
-                val = (x+y)/2
+                val = ((x*hist)+(y*text))/2
                 values.append(val)
         avg = 0
         for x in values:
