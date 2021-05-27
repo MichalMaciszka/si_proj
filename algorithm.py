@@ -1,3 +1,30 @@
+import random
+
+
+def pre_clastering(offers, hist, text):
+    val = 0.95
+    original = offers.copy()
+    print("pre-clastering...")
+    result = []
+    while len(original) > 0:
+        r = random.choice(original)
+        original.remove(r)
+        tmp = [r]
+        for x in original.copy():
+            a, b = r.compare_offer(x)
+            s = (a*hist + b*text)/(hist + text)
+            if s >= val:
+                print(s)
+                print(r, x)
+                tmp.append(x)
+                original.remove(x)
+        result.append(tmp)
+    print()
+    return result
+
+
+
+
 def construct_array(claster_list, hist, text):
     res = []
     for i in range(len(claster_list)):

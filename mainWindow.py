@@ -97,9 +97,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         claster_array = []
         i = 0
-        for e in offers:
+        pre_clasters = algorithm.pre_clastering(offers, self.checkBox.isChecked(), self.checkBox_2.isChecked())
+        for e in pre_clasters:
             i += 1
-            claster_array.append(claster.Claster([e]))
+            claster_array.append(claster.Claster(e))
             self.progressBar.setProperty("value", 40 + (i/len(offers))*10)
 
         x = algorithm.algorithm(claster_array, self.checkBox.isChecked(), self.checkBox_2.isChecked(), self.progressBar, 10)
