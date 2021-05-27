@@ -83,7 +83,7 @@ class MainWindow(QtWidgets.QMainWindow):
         offers = []
         self.progressBar.setProperty("value", 0)
         # texts = scrapping.download_and_get_text()
-        texts = allegro_api.download_and_get_texts(self.progressBar, 30)
+        texts = allegro_api.download_and_get_texts(self.progressBar, 100)
         words_vector = scrapping.create_words_vector(texts)
         images = {}
 

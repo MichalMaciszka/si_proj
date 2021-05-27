@@ -20,7 +20,7 @@ class Offer:
 
     def __str__(self):
         res = "\t"
-        res += self.text
+        res += self.text + " " + self.img_path
         return res
 
     def compare_hist(self, other_hist):
