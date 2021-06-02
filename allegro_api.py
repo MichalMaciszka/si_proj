@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import webbrowser
 import os
 from PyQt5 import QtCore
+import numpy as np
 
 CLIENT_ID = "a90652706b9a40eab09ba6d932775125"
 CLIENT_SECRET = "8hn8faw2p2gomG8RTzK0iGx2eK8KZTQx7fTczRLr9GWdYq84PJG3rJfuA3DIgcG4"
@@ -123,16 +124,29 @@ def download_and_get_texts(progressBar, num):
     notify = QtCore.pyqtSignal()
     file = open("keys.txt", "r")
     access_token = file.readline()
-    refresh_token = file.readline()
+    # refresh_token = file.readline()
     file.close()
     names, images = get_offers(access_token, "pendrive", num)
     path = "imgs"
+    file = open("names.txt", "w")
+    for line in names:
+        print(line)
+        t = file.write(line)
+        t = file.write('\n')
     no = 1
     for img in images:
         download(img, path, no)
         no += 1
         progressBar.setProperty("value", (no/num)*20)
+    file.close()
     return names
+
+def import_texts(path):
+    file = open(path, 'r')
+    names = file.readlines()
+    file.close()
+    return names
+
 
 if __name__ == "__main__":
     download_and_get_texts()
