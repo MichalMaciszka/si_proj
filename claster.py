@@ -14,7 +14,8 @@ class Claster:
             for j in other_claster.list:
                 x, y = i.compare_offer(j)
                 # val = x*y #? - ew x+y/2
-                val = ((x*hist)+(y*text))/2
+                val = ((x*hist) + (y*text))/(hist + text)
+                # val = (x*hist)*(y*text)
                 values.append(val)
         avg = 0
         for x in values:

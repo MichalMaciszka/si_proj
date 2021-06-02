@@ -120,7 +120,7 @@ def write_access_token():
 
 
 def download_and_get_texts(progressBar, num):
-    write_access_token()
+    # write_access_token()
     notify = QtCore.pyqtSignal()
     file = open("keys.txt", "r")
     access_token = file.readline()
