@@ -2,7 +2,7 @@ import random
 
 
 def pre_clastering(offers, hist, text):
-    val = 0.95
+    val = 0.99*hist - 0.04*text
     original = offers.copy()
     print("pre-clastering...")
     result = []
