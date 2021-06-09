@@ -10,8 +10,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import cv2
-import math
-import sys
 import clasterWindow
 import offer
 import claster
@@ -19,7 +17,7 @@ import algorithm
 import scrapping
 import allegro_api
 import clastersWindow
-import threading
+
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -110,7 +108,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for a in x:
             self.windows[i] = clasterWindow.Ui_Dialog()
             self.windows[i].setupUi(a.list)
-            #self.windows[i].show()
+            # self.windows[i].show()
             i += 1
             self.progressBar.setProperty("value", 90 + (i/len(x))*10)
         self.clasterWindow = clastersWindow.Ui_Dialog()

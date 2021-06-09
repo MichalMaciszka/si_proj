@@ -5,6 +5,23 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin, urlparse
 import string
 
+
+# only really used function from this file, less is irrelevant while we have access to Allegro API
+def create_words_vector(all_texts):
+    tmp = []
+    words = []
+    for item in all_texts:
+        split = item.split()
+        for i in split:
+            a = i.lower()
+            a = a.translate(str.maketrans('', '', string.punctuation))
+            tmp.append(a)
+    for x in tmp:
+        if x not in words:
+            words.append(x)
+    return words
+
+
 def is_valid(url):
     parsed = urlparse(url)
     return bool(parsed.netloc) and bool(parsed.scheme)
@@ -25,6 +42,7 @@ def get_list_of_images(url):
         array.extend(img_urls)
         page += 1
     return array
+
 
 def get_images_urls(array, page_url):
     urls = []
@@ -51,7 +69,7 @@ def download(url, pathname, it):
     # get the total file size
     file_size = int(response.headers.get("Content-Length", 0))
     # get the file name
-    #filename = os.path.join(pathname, url.split("/")[-1])
+    # filename = os.path.join(pathname, url.split("/")[-1])
     filename = os.path.join(pathname, str(it))
     filename += ".jpg"
     # progress bar, changing the unit to bytes instead of iteration (default by tqdm)
@@ -62,6 +80,7 @@ def download(url, pathname, it):
             f.write(data)
             # update the progress bar manually
             progress.update(len(data))
+
 
 def get_text(url="https://www.olx.pl/elektronika/q-pendrive/"):
     list = []
@@ -79,31 +98,13 @@ def get_text(url="https://www.olx.pl/elektronika/q-pendrive/"):
         page += 1
     return list
 
-def create_words_vector(all_texts):
-    tmp = []
-    words = []
-    for item in all_texts:
-        split = item.split()
-        for i in split:
-            a = i.lower()
-            a = a.translate(str.maketrans('', '', string.punctuation))
-            tmp.append(a)
-    for x in tmp:
-        if x not in words:
-            words.append(x)
-    return words
-
 
 def download_and_get_text():
     url = "https://www.olx.pl/elektronika/q-pendrive/"
     path = "imgs"
-    images= get_list_of_images(url)
+    images = get_list_of_images(url)
     no = 1
     for img in images:
         download(img, path, no)
         no += 1
     return get_text(url)
-
-# download_and_get_text()
-# ex = ["He is nice", "He, is. playing football"]
-# print(create_words_vector(ex))

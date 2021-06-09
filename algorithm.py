@@ -4,7 +4,6 @@ import random
 def pre_clastering(offers, hist, text):
     val = 0.99*hist - 0.04*text
     original = offers.copy()
-    print("pre-clastering...")
     result = []
     while len(original) > 0:
         r = random.choice(original)
@@ -19,10 +18,7 @@ def pre_clastering(offers, hist, text):
                 tmp.append(x)
                 original.remove(x)
         result.append(tmp)
-    print()
     return result
-
-
 
 
 def construct_array(claster_list, hist, text):
@@ -54,7 +50,7 @@ def get_max_i_j(array):
 def algorithm(clasters, hist, text, progressBar, num):
     c = clasters.copy()
     l = len(c) / num
-    print("l = ", l)
+    # print("l = ", l)
     result = []
     # while len(c) > num:
     while len(result) < num - 1 and len(c) > 5:
@@ -71,6 +67,5 @@ def algorithm(clasters, hist, text, progressBar, num):
     c.pop(0)
     for e in c:
         tmp.list.extend(e.list)
-    # result.extend(c)
     result.append(tmp)
     return result

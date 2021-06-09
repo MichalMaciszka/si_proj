@@ -16,7 +16,6 @@ class Offer:
         for e in self.hist:
             if e != 0:
                 x.append(e)
-        # print(len(x))
 
     def __str__(self):
         res = "\t"
@@ -45,8 +44,6 @@ class Offer:
     def compare_offer(self, other_offer):
         x = self.compare_hist(other_offer.hist)
         y = self.compare_vectors(other_offer.vector)
-        # other_offer.x = x
-        # other_offer.y = y
         return x, y
 
     def text_to_vector(self, all_words):
@@ -58,27 +55,3 @@ class Offer:
             for j in range(len(split)):
                 if all_words[i] == split[j].lower():
                     self.vector[i] += 1
-
-
-# if __name__ == "__main__":    
-#     offers = []
-#     # text = scrapping.download_and_get_text()
-#     text = scrapping.get_text()
-#     vector = scrapping.create_words_vector(text)
-#     tmp = Offer("imgs/1.jpg", text[0])
-#     tmp.text_to_vector(vector)
-
-#     i = 2
-#     while i <= 100:
-#         new_offer = Offer("imgs/" + str(i) + ".jpg", text[i-1])
-#         new_offer.text_to_vector(vector)
-#         # print(new_offer.vector)
-#         offers.append(new_offer)
-#         i += 1
-#     print(tmp.text)
-#     print(tmp.compare_offer(tmp))
-#     print(offers[98].text, '\n', offers[97].text)
-#     print(offers[98].compare_offer(offers[97]))
-
-#     for e in offers:
-#         print(tmp.compare_offer(e))
